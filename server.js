@@ -14,7 +14,6 @@ var db = mongoose.connect('mongodb://localhost/db', function(err){
 
 });
 
-var Book = require('./app/models/bookModel');
 var Customer = require('./app/models/customerModel');
 var Order = require('./app/models/orderModel');
 
@@ -23,11 +22,9 @@ app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;
 
-bookRouter = require('./app/routes/bookRoutes')(Book);
 customerRouter = require('./app/routes/customerRoutes')(Customer);
 orderRouter = require('./app/routes/orderRoutes')(Order);
 
-app.use('/api', bookRouter);
 app.use('/customers',customerRouter);
 app.use('/orders',orderRouter);
 
