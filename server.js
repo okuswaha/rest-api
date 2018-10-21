@@ -5,38 +5,25 @@ var bodyParser = require('body-parser');
 // get mongoose
 var mongoose = require('mongoose');
 // connect to local mongo db
-var db = mongoose.connect('mongodb://localhost/bookAPI');
+var db = mongoose.connect('mongodb://localhost/db', function(err){
+	if(err){
+		console.log("Could not connect");
+	} else {
+		console.log("successfully connected");
+	}
+
+});
 
 var Book = require('./app/models/bookModel');
-
 
 app.use(bodyParser.urlencoded({extended : true }));
 app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;
 
-var router = express.Router();
+bookRouter = require('./app/routes/bookRoutes')(Book);
 
-router.get('/', function(req, res){
-	res.json({message : 'welcome to rest api'});
-});
-
-router.get('/Books', function(req, res){
-	Book.find(function(err, books){
-		if(err){
-			res.status(500);
-		}
-		else {
-			res.json(books);
-		}
-	});
-});
-
-router.get('/Pens', function(req, res){
-	res.json({message : 'List of Pens'});
-});
-
-app.use('/api', router);
+app.use('/api', bookRouter);
 
 app.listen(port);
 
