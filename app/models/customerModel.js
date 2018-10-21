@@ -6,3 +6,5 @@ var customerModel = new Schema({
 	lastName : { type: String },
 	email : { type: String }
 });
+
+module.exports = mongoose.model('Customer', customerModel);
